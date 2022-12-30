@@ -30,7 +30,7 @@ const ChapterSection = () =>{
 
 
     const deleteEachChapter = (id) => {
-        axios.delete(`http://localhost:3001/video/${id}`);
+        // axios.delete(`http://localhost:3001/video/${id}`);
         axios.delete(`http://localhost:3001/lesson/${id}`).then(()=>{
             // const chapterList = [...this.state.chapterList];
 
@@ -49,8 +49,15 @@ const ChapterSection = () =>{
         })
     }
 
-    const updateVideo = (id) =>{
-        
+    const switchVideoName = async(id) =>{
+        localStorage.setItem('chapterID', id);
+        const res2 =await axios.get(`http://localhost:3001/getvideo/${id}`);
+        const isDataAvailable = res2.data && res2.data.length;
+        if (!isDataAvailable) {
+            setVideoData(false);
+        }else{
+            setVideoData(true);
+        }
     }
 
     return(
@@ -67,31 +74,47 @@ const ChapterSection = () =>{
                                     // handleClick();
                                 }}
                                 onMouseOver = {async()=>{
-                                    localStorage.setItem('chapterID', props.chapter_ID);
-                                    const res2 =await axios.get(`http://localhost:3001/getvideo/${props.chapter_ID}`);
-                                    const isDataAvailable = res2.data && res2.data.length;
-                                    if (!isDataAvailable) {
-                                        setVideoData(false);
-                                    }else{
-                                        setVideoData(true);
-                                    }
-                                    console.log(videoData);
-                                    console.log(res2.data);
+                                    // localStorage.setItem('chapterID', props.chapter_ID);
+                                    // const res2 =await axios.get(`http://localhost:3001/getvideo/${props.chapter_ID}`);
+                                    // const isDataAvailable = res2.data && res2.data.length;
+                                    // if (!isDataAvailable) {
+                                    //     setVideoData(false);
+                                    // }else{
+                                    //     setVideoData(true);
+                                    // }
+                                    switchVideoName(props.chapter_ID);
+                                    // console.log(videoData);
+                                    // console.log(res2.data);
                                 }}
                                 
                             >{props.chapter_name}</button>
-                            <div className="dropdown-content">
+                            <section style ={{marginBottom:'10%'}}>
+                            <div className="dropdown-content"
+                                onMouseOver = {async()=>{
+                                    // localStorage.setItem('chapterID', props.chapter_ID);
+                                    // const res2 =await axios.get(`http://localhost:3001/getvideo/${props.chapter_ID}`);
+                                    // const isDataAvailable = res2.data && res2.data.length;
+                                    // if (!isDataAvailable) {
+                                    //     setVideoData(false);
+                                    // }else{
+                                    //     setVideoData(true);
+                                    // }
+                                    switchVideoName(props.chapter_ID);
+                                    // console.log(videoData);
+                                    // console.log(res2.data);
+                                }}
+                            >
                                     {videoData?<Link to="/updatevideo">Edit Video</Link>:<Link to="/addvideo">Create Video</Link>}
                                     {/* <Link to="/addvideo">Video</Link> */}
-                                    <Link to="#">Link 2</Link>
-                                    <Link to="#">Link 3</Link>
+                                    <Link to="/addfile">Add File</Link>
+                                    <Link to="/managequiz">Manage Quiz</Link>
                                     <Button 
                                         className="btn  mx-auto d-flex align-items-center"
                                         variant="danger" 
                                         onClick={(e)=>{deleteEachChapter(props.chapter_ID)}}>
                                         Delete
                                     </Button>
-                            </div>
+                            </div></section>
                         </div>
                     </section>
                     

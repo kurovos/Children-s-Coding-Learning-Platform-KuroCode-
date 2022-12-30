@@ -10,12 +10,11 @@ import {
     Logo,
     OpenLinksButton,
     NavbarLinkExtended,
-    rightContainerThing 
+    RightContainerThing 
 } from './style/Navbar.style'
 import KuroCodeLogo from "./picture/logo_image.png";
 import { Button } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom'
-import { LogForm } from "./Form.js";
 import axios from 'axios';
 
 const Navbar = ()=>{
@@ -40,7 +39,7 @@ const Navbar = ()=>{
 
     const coursePage = (userType) =>{
         if(userType === "student"){
-            return "/about"; 
+            return "/course"; 
         }else if(userType === "teacher"){
             return "/course";
         }else{
@@ -57,9 +56,9 @@ const Navbar = ()=>{
                     <NavbarLinkContainer>
                         <NavbarLink to="/">KuroCode</NavbarLink>
                         {/* {coursePage(userType)} */}
-                        <NavbarLink to = "/course">Course</NavbarLink>
+                        <NavbarLink to = {coursePage(userType)}>Course</NavbarLink>
                         <NavbarLink to="/leaderboard">Leaderboard</NavbarLink>
-                        <NavbarLink to="/about">About Us</NavbarLink>
+                        <NavbarLink to="/quiz">About Us</NavbarLink>
                         <OpenLinksButton
                             onClick={() =>{
                                 setExtendNavbar((curr) => !curr);
@@ -70,7 +69,28 @@ const Navbar = ()=>{
                     </NavbarLinkContainer>
                 </LeftContainer>
                 <RightContainer>
+                    <RightContainerThing>
+                    {user? 
+                        <div  className="row mt-3 mb-3 d-flex">
+                            <h4 className="text-white col-lg mr-3">{ user }</h4>
+                            <Button className ="btn btn-danger col-lg" 
+                            onClick = {logout}
+                            >logout</Button>
+                        </div>: 
+                        <NavbarLink to="/login">
+                        <Button className="btn btn-secondary">Login</Button>
+                        </NavbarLink>
+                    }
+                    </RightContainerThing>
                     
+                </RightContainer>
+            </NavbarInnerContainer>
+            {extendNavbar && (
+                <NavbarExtendedContainer>
+                    <NavbarLinkExtended to="/">KuroCode</NavbarLinkExtended>
+                    <NavbarLinkExtended to="/course">Course</NavbarLinkExtended>
+                    <NavbarLinkExtended to="/leaderboard">Leaderboard</NavbarLinkExtended>
+                    <NavbarLinkExtended to="/about">About Us</NavbarLinkExtended>
                     {user? 
                         <div  className="row mt-3 mb-3">
                             <h4 className="text-white col-lg mr-3">{ user }</h4>
@@ -82,16 +102,6 @@ const Navbar = ()=>{
                         <Button className="btn btn-secondary">Login</Button>
                         </NavbarLink>
                     }
-                    
-                    
-                </RightContainer>
-            </NavbarInnerContainer>
-            {extendNavbar && (
-                <NavbarExtendedContainer>
-                    <NavbarLinkExtended to="/">KuroCode</NavbarLinkExtended>
-                    <NavbarLinkExtended to="/course">Course</NavbarLinkExtended>
-                    <NavbarLinkExtended to="/leaderboard">Leaderboard</NavbarLinkExtended>
-                    <NavbarLinkExtended to="/about">About Us</NavbarLinkExtended>
                 </NavbarExtendedContainer>
             )}
         </NavbarContainer>

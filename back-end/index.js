@@ -59,6 +59,11 @@ app.post("/studentregister", (req, res)=> {
             "INSERT INTO student (stu_fname, stu_lname, stu_email, stu_pwd) VALUES (?,?,?,?)", 
             [stu_fname, stu_lname, stu_email, hash],
             (err,result)=>{
+                if(err){
+                    res.send({message: "Account exist!"});
+                }else{
+                    res.send({message: "Register Success"});
+                }
                 console.log(err);
             }
         );
@@ -91,6 +96,11 @@ app.post("/teacherregister", (req, res)=> {
             "INSERT INTO teacher (teacher_fname, teacher_lname, teacher_email, teacher_pwd) VALUES (?,?,?,?)", 
             [teacher_fname, teacher_lname, teacher_email, hash],
             (err,result)=>{
+                if(err){
+                    res.send({message: "Account exist!"});
+                }else{
+                    res.send({message: "Register Success"});
+                }
                 console.log(err);
             }
         );
@@ -224,7 +234,7 @@ app.get("/:id", (req,res) =>{
     const id = req.params.id;
     if(userType==="student"){
         db.query(
-            "SELECT FROM student WHERE student_ID = ?",
+            "SELECT FROM student WHERE stu_ID = ?",
             id,
             (err,result)=>{
                 if(err){

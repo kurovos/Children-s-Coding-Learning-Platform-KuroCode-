@@ -25,7 +25,11 @@ export const RightContainer = styled.div`
     display: flex;
     justify-content: flex-end;
     padding-right: 5%;
-    padding-top: 10px
+    padding-top: 10px;
+
+    @media (max-width: 800px){
+        display: none;
+    }
 `;
 
 export const NavbarInnerContainer = styled.div`
@@ -93,7 +97,7 @@ export const Logo = styled.img`
     }
 `;
 
-export const rightContainerThing = styled.div`
+export const RightContainerThing = styled.div`
     color: white;
     font-size: x-large;
     font-family: Arial, Helvetica, sans-serif;
@@ -101,4 +105,5 @@ export const rightContainerThing = styled.div`
     position: relative;
     margin: 10px 30px;
     z-index: 3;
+
 `;

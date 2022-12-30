@@ -75,7 +75,9 @@ const UpdateVideo = ()=>{
                 <Form.Group className='mb-3' controlId="formVideoDescription">
                     <Form.Label>Video Description</Form.Label>
                     <Form.Control 
-                        type="text" 
+                        as="textarea" 
+                        row={3}
+                        // type="text" 
                         name="video_description" 
                         placeholder="Video Description"
                         value = {videoDescription}

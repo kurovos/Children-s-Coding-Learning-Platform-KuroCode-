@@ -37,9 +37,10 @@ const AddVideo = () =>{
             }).catch((error)=>{
                 console.log(error);
             });
+            navigate("/lesson");
+        }else{
+            return;
         }
-        
-        navigate("/lesson");
     }
 
     return(
@@ -56,7 +57,7 @@ const AddVideo = () =>{
                 </Form.Group>
                 <Form.Group className='mb-3' controlId="formVideoDescription">
                     <Form.Label>Video Description</Form.Label>
-                    <Form.Control type="text" name="video_description" placeholder="Video Description"
+                    <Form.Control as="textarea" row={3} name="video_description" placeholder="Video Description"
                         onChange = {(e)=> {
                             setVDescription(e.target.value);
                         }}

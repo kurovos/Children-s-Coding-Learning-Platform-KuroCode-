@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import Axios from "axios";
 //import { Form } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
 const AddCourse = ()=>{
     
     const [cName, setCName] = useState("");
     const [cDescription, setCDescription] = useState("");
     const [cFile,setCFile] = useState("");
+    const teacherID = localStorage.getItem('userID');
 
     const navigate = useNavigate();
 
@@ -24,6 +25,7 @@ const AddCourse = ()=>{
         formData.append("course_name",cName);
         formData.append("course_description",cDescription);
         formData.append("course_img",cFile);
+        formData.append("teacher_ID", teacherID);
 
         const config = {
             headers:{
@@ -56,7 +58,12 @@ const AddCourse = ()=>{
                 </Form.Group>
                 <Form.Group className='mb-3' controlId="formCourseDescription">
                     <Form.Label>Course Description</Form.Label>
-                    <Form.Control type="text" name="course_description" placeholder="Description"
+                    <Form.Control 
+                        // type="text" 
+                        as="textarea" 
+                        row={3}
+                        name="course_description" 
+                        placeholder="Description"
                         onChange = {(e)=> {
                             setCDescription(e.target.value);
                         }}

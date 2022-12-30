@@ -11,6 +11,7 @@ const RegForm = ()=>{
     const [emailReg, setEmailReg] = useState('');
     const [pwdReg, setPwdReg] = useState('');
     const [userType, setUserType] = useState('');
+    const [registerStatus, setRegisterStatus] = useState('');
 
     Axios.defaults.withCredentials = true;
 
@@ -23,7 +24,12 @@ const RegForm = ()=>{
                 stu_pwd: pwdReg
                 }).then((response)=>{
                     console.log(response);
-                })
+                    setRegisterStatus(response.data.message);
+                }).catch(err=>{
+                    console.log(err);
+                    alert("Account exist!");
+                    return err;
+                });
             }
             else if(userType === "teacher"){
                 Axios.post('http://localhost:3001/teacherregister',{
@@ -33,7 +39,12 @@ const RegForm = ()=>{
                 teacher_pwd: pwdReg
                 }).then((response)=>{
                     console.log(response);
-                })
+                    setRegisterStatus(response.data.message);
+                }).catch(err=>{
+                    console.log(err);
+                    alert("Account exist!");
+                    return err;
+                });
             }
     };
 
@@ -92,6 +103,7 @@ const RegForm = ()=>{
                 </Form.Group>
             </Form>
             <Link className= "mb-3 px-3" to="/login">Login</Link>
+            { registerStatus?<div className="alert alert-secondary">{registerStatus}</div>:<></>}
         </FormContainer>
     );
 };

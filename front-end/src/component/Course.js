@@ -12,16 +12,31 @@ const Course = ()=>{
     const userType = localStorage.getItem('userType');
     const [editVisible, setEditVisible] = useState(false);
     const [deleteVisible, setDeleteVisible] = useState(false);
+    // const [cardVisible, setCardVisible] = useState(false);
+    // const [deleteChapterList, setDeleteChapterList] = useState([]);
 
     const navigate = useNavigate();
     
     useEffect(()=>{
         const getCourse = async()=>{
             try{
-                const res = await axios.get("http://localhost:3001/course");
-                console.log(res);
-                setCourseList(res.data);
-                return res.data;
+                if(userType === "teacher" && userID === "1"){
+                    const res = await axios.get("http://localhost:3001/course");
+                    console.log(res);
+                    setCourseList(res.data);
+                    return res.data;
+                }else if(userType === "teacher" && userID !== "1"){
+                    const res = await axios.get(`http://localhost:3001/course/${userID}`);
+                    console.log(res);
+                    setCourseList(res.data);
+                    return res.data;
+                }else{
+                    const res = await axios.get("http://localhost:3001/course");
+                    console.log(res);
+                    setCourseList(res.data);
+                    return res.data;
+                }
+                
             }catch(err){
                 console.log(err);
                 return err;
@@ -54,8 +69,20 @@ const Course = ()=>{
         axios.delete(`http://localhost:3001/chapter/${id}`);
     }
 
-    const deleteCourse =  (id) =>{
-        deleteChapter(id);
+    const deleteCourse = async(id) =>{
+        // try{
+        //     console.log(id);
+        //     const res3 = await axios.get(`http://localhost:3001/chapter/${id}`);
+        //     console.log(res3.data);
+        //     res3.data.forEach((props)=>{
+        //         axios.delete(`http://localhost:3001/video/${props.chapter_ID}`);
+        //         axios.delete(`http://localhost:3001/lesson/${props.chapter_ID}`)
+        //     });
+        //     // console.log(deleteChapterList);
+        // }catch(error){
+        //         console.log(error);
+        // }
+        // deleteChapter(id);
         axios.delete(`http://localhost:3001/course/${id}`)
         .then( ()=>{
             // // Get the current list of courses
@@ -92,10 +119,6 @@ const Course = ()=>{
         <div className="container mt-2">
             <h1 className="text-center mt-2">Course Management</h1>
 
-            {/* <div>
-                <Button variant="primary"><NavLink to="/addvideo" className="text-decoration-none text-light">Add video</NavLink></Button>
-            </div> */}
-
             <div className="text-end">
                 <Button variant="primary"><NavLink to="/addcourse" className="text-decoration-none text-light">Add Course</NavLink></Button>
             </div>
@@ -103,8 +126,10 @@ const Course = ()=>{
            <div className = "row card-deck d-flex align-items-center mt-5">
            {courselist.map((props, index)=>{ 
              return(
-                <section key={index} className="col-lg-4 col-md-6 py-3 d-flex">
-                    <Link to="/about" style={{ color: 'black', textDecoration: 'none' }}>
+                <section key={index} className="col-lg-4 col-md-6 py-3 d-flex" onClick = {(e)=>{
+                    localStorage.setItem('courseID', props.course_ID);
+                }}>
+                    <Link to="/courseinfo" style={{ color: 'black', textDecoration: 'none' }}>
                     <Card style={{ width: '24rem', height:'24rem'}} className="card mb-3 col-lg-3 col-md-6">
                         <Card.Img variant="top" src={props.course_img} style={{ width: '50%', height:'50%', textAlign:'center', margin:"auto", borderRadius: '50%'}} className="mt-2"/>
                         <Card.Body className="text-center">
