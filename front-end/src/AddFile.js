@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Axios from "axios";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Breadcrumb } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 const AddFile = ()=>{
@@ -14,11 +14,6 @@ const AddFile = ()=>{
 
     const addFile = async(e)=>{
         e.preventDefault();
-
-        // if (!file.type.startsWith("image/")) {
-        //     window.alert("Please select an image file to upload");
-        //     return;
-        // }
 
         var formData =new FormData();
         formData.append("file_name",name);
@@ -45,6 +40,12 @@ const AddFile = ()=>{
 
     return(
         <div className='container mt-3'>
+            {/* <Button style={{marginLeft:"-80px"}} variant="danger" onClick={(e)=>{navigate(-1)}}>Back</Button> */}
+            <Breadcrumb style={{ marginTop: "50px", fontSize: "24px"}}>
+                <Breadcrumb.Item href="/course">Course</Breadcrumb.Item>
+                <Breadcrumb.Item href="/lesson">Lesson</Breadcrumb.Item>
+                <Breadcrumb.Item active>Add File</Breadcrumb.Item>
+            </Breadcrumb>
             <h1>Add File</h1>
             <Form>
                 <Form.Group className='mb-3' controlId='formFileName'>

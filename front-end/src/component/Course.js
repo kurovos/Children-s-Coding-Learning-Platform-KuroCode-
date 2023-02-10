@@ -5,6 +5,9 @@ import Background from "../picture/course1.jpg";
 import { getCourse } from "../apiCalls.js";
 import axios from 'axios';
 import "../style/cardStyle.css";
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import { AiOutlineSearch } from "react-icons/ai";
 
 const Course = ()=>{
     const [courselist, setCourseList] = useState([]);
@@ -12,6 +15,8 @@ const Course = ()=>{
     const userType = localStorage.getItem('userType');
     const [editVisible, setEditVisible] = useState(false);
     const [deleteVisible, setDeleteVisible] = useState(false);
+    const [filteredList, setFilteredList] = new useState(courselist);
+    const [query, setQuery] = useState("")
     // const [cardVisible, setCardVisible] = useState(false);
     // const [deleteChapterList, setDeleteChapterList] = useState([]);
 
@@ -103,6 +108,24 @@ const Course = ()=>{
         });
     }
 
+    const submit = (id) => {
+
+        confirmAlert({
+          title: 'Confirm to delete?',
+          message: 'Are you sure to do this.',
+          buttons: [
+            {
+              label: 'Yes',
+              onClick: () => deleteCourse(id)
+            },
+            {
+              label: 'No',
+              //onClick: () => alert('Click No')
+            }
+          ]
+        });
+    }
+
     const limitWord = (description)=>{
         if (description.length > 60) {
             description = description.substring(0, 60) + "...";
@@ -114,17 +137,49 @@ const Course = ()=>{
         localStorage.setItem('courseID', id);
         navigate("/lesson");
     }
+
+    const filterCourse = (event) =>{
+        const input = event.target.value;
+        var updatedList = [...courselist];
+        updatedList = updatedList.filter((item)=>{
+            return item.course_name.toLowerCase().includes(input.toLowerCase());
+        });
+    }
     
     return(
-        <div className="container mt-2">
-            <h1 className="text-center mt-2">Course Management</h1>
-
-            <div className="text-end">
+        <div style={{backgroundColor: "#FFF5EE", width: '100%', minHeight: '100vh', height: '100%', paddingTop: '5px'}}>
+        <div className="container  mt-2">
+            {editVisible?<h1 className="text-center mt-2" style={{fontFamily: 'Times New Roman'}}>Course Management</h1>:<h1 className="text-center mt-2" style={{fontFamily: 'Times New Roman'}}>Course</h1>}
+            {/* <h1 className="text-center mt-2">Course Management</h1> */}
+            {/* {<div className="text-start" style={{marginLeft: "-100px"}}>
+                <Button variant="danger" onClick={(e)=>{navigate(-1)}}>Back</Button>
+            </div>} */}
+            {editVisible?
+            <div className="text-end" style={{marginTop: "40px", marginRight: "35px", marginBottom: "-40px"}}>
                 <Button variant="primary"><NavLink to="/addcourse" className="text-decoration-none text-light">Add Course</NavLink></Button>
-            </div>
-           
-           <div className = "row card-deck d-flex align-items-center mt-5">
-           {courselist.map((props, index)=>{ 
+            </div>:<></>}
+            {/* <div className="text-end">
+                <Button variant="primary"><NavLink to="/addcourse" className="text-decoration-none text-light">Add Course</NavLink></Button>
+            </div> */}
+           <div className="input-group justify-content-end" style={{width:'50%', marginTop: '50px', marginLeft: '25%'}}>
+                <input
+                    type="text"
+                    className="form-control" 
+                    placeholder="Find Course" 
+                    onChange={event => setQuery(event.target.value)} 
+                />
+                <div className="input-group-text"><AiOutlineSearch /></div>
+           </div>
+           <div className = "row card-deck d-flex align-items-center mt-3">
+           {courselist
+           .filter(props => {
+                if (query === '' || query === " ") {
+                return props;
+                } else if (props.course_name.toLowerCase().includes(query.toLowerCase())) {
+                return props;
+                }
+            })
+           .map((props, index)=>{ 
              return(
                 <section key={index} className="col-lg-4 col-md-6 py-3 d-flex" onClick = {(e)=>{
                     localStorage.setItem('courseID', props.course_ID);
@@ -133,10 +188,10 @@ const Course = ()=>{
                     <Card style={{ width: '24rem', height:'24rem'}} className="card mb-3 col-lg-3 col-md-6">
                         <Card.Img variant="top" src={props.course_img} style={{ width: '50%', height:'50%', textAlign:'center', margin:"auto", borderRadius: '50%'}} className="mt-2"/>
                         <Card.Body className="text-center">
-                            <Card.Title>
+                            <Card.Title style={{color:'#191970', fontWeight: 'bold'}}>
                                 {props.course_name}
                             </Card.Title>
-                            <Card.Text style={{ height:'40%'}}>
+                            <Card.Text style={{ height:'40%', color:'#191970', fontWeight: 'bold'}}>
                                 {limitWord(props.course_description)}
                             </Card.Text>
                             {editVisible?<Button variant="primary" 
@@ -155,7 +210,8 @@ const Course = ()=>{
                                 type="submit"
                                 onClick={(e)=>{
                                     e.preventDefault();
-                                    deleteCourse(props.course_ID)
+                                    submit(props.course_ID);
+                                    // deleteCourse(props.course_ID)
                                 }}
                             >Delete</Button>:<></>}
                         </Card.Body>
@@ -166,6 +222,7 @@ const Course = ()=>{
             }
            )}
            </div>
+    </div>
     </div>
     )
 }

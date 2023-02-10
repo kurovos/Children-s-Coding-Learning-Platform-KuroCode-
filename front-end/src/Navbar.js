@@ -37,11 +37,11 @@ const Navbar = ()=>{
         refreshPage();
     }
 
-    const coursePage = (userType) =>{
+    const checklogin = (userType, path) =>{
         if(userType === "student"){
-            return "/course"; 
+            return path; 
         }else if(userType === "teacher"){
-            return "/course";
+            return path;
         }else{
             return "/login"
         }
@@ -56,9 +56,9 @@ const Navbar = ()=>{
                     <NavbarLinkContainer>
                         <NavbarLink to="/">KuroCode</NavbarLink>
                         {/* {coursePage(userType)} */}
-                        <NavbarLink to = {coursePage(userType)}>Course</NavbarLink>
-                        <NavbarLink to="/leaderboard">Leaderboard</NavbarLink>
-                        <NavbarLink to="/quiz">About Us</NavbarLink>
+                        <NavbarLink to = {checklogin(userType, "/course")}>Course</NavbarLink>
+                        <NavbarLink to={checklogin(userType, "leaderboard")}>Leaderboard</NavbarLink>
+                        <NavbarLink to={checklogin(userType, "/profile")}>Profile</NavbarLink>
                         <OpenLinksButton
                             onClick={() =>{
                                 setExtendNavbar((curr) => !curr);
@@ -90,7 +90,7 @@ const Navbar = ()=>{
                     <NavbarLinkExtended to="/">KuroCode</NavbarLinkExtended>
                     <NavbarLinkExtended to="/course">Course</NavbarLinkExtended>
                     <NavbarLinkExtended to="/leaderboard">Leaderboard</NavbarLinkExtended>
-                    <NavbarLinkExtended to="/about">About Us</NavbarLinkExtended>
+                    <NavbarLinkExtended to="/profile">Profile</NavbarLinkExtended>
                     {user? 
                         <div  className="row mt-3 mb-3">
                             <h4 className="text-white col-lg mr-3">{ user }</h4>

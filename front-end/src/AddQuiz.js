@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import Axios from "axios";
-import { Button, Form, Row, Col } from "react-bootstrap";
+import { Button, Form, Row, Col, Breadcrumb } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 
 const AddQuiz = ()=>{
-    const [option, setOption] = useState("");
+    const [option, setOption] = useState("option1");
     const [question, setQuestion] = useState(""); 
     const [option1, setOption1] = useState("");
     const [option2, setOption2] = useState("");
     const [option3, setOption3] = useState("");
     const [option4, setOption4] = useState("");
 
+    const navigate = useNavigate();
     
     const addQuiz = async (event) =>{
         const chapterID = localStorage.getItem('chapterID');
@@ -29,13 +31,22 @@ const AddQuiz = ()=>{
         }).catch((error)=>{
             console.log(error);
         });
-
+        navigate("/managequiz");
     }
 
 
     return(
         <div>
             <Form className = "container mb-3">
+                {/* <div className="text-start" style={{marginLeft: "-100px", marginTop: "20px"}}>
+                        <Button variant="danger" onClick={(e)=>{navigate(-1)}}>Back</Button>
+                </div> */}
+                <Breadcrumb style={{ marginTop: "50px", fontSize: "24px"}}>
+                    <Breadcrumb.Item href="/course">Course</Breadcrumb.Item>
+                    <Breadcrumb.Item href="/lesson">Lesson</Breadcrumb.Item>
+                    <Breadcrumb.Item href="/managequiz">Manage Quiz</Breadcrumb.Item>
+                    <Breadcrumb.Item active>Add Quiz</Breadcrumb.Item>
+                </Breadcrumb>
                 <h1 className="text-center m-3">Add Quiz</h1>
                 <Form.Group className='mb-3' controlId='quizQuestion'>
                     <Form.Label>

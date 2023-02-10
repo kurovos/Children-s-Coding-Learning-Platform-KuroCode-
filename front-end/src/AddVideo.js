@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Axios from "axios";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Breadcrumb } from "react-bootstrap";
 import validator from "validator";
 import { useNavigate } from "react-router-dom";
 
@@ -45,6 +45,11 @@ const AddVideo = () =>{
 
     return(
         <div>
+            <Breadcrumb style={{marginLeft: "250px", marginTop: "50px", fontSize: "24px"}}>
+                <Breadcrumb.Item href="/course">Course</Breadcrumb.Item>
+                <Breadcrumb.Item href="/lesson">Lesson</Breadcrumb.Item>
+                <Breadcrumb.Item active>Add Video</Breadcrumb.Item>
+            </Breadcrumb>
             <Form className="container mt-3">
                 <h1>Add Video</h1>
                 <Form.Group className='mb-3' controlId='formVideoName'>

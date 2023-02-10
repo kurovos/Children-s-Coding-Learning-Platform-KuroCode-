@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Axios from "axios";
 //import { Form } from "react-router-dom";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Breadcrumb } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 const AddCourse = ()=>{
@@ -46,7 +46,11 @@ const AddCourse = ()=>{
 
     return(
         <div className='container mt-3'>
-            <h1>Add Course</h1>
+            <Breadcrumb style={{ marginTop: "50px", fontSize: "24px"}}>
+                <Breadcrumb.Item href="/course">Course</Breadcrumb.Item>
+                <Breadcrumb.Item active>Add Course</Breadcrumb.Item>
+            </Breadcrumb>
+            <h1 className="text-center mt-2" style={{fontFamily: 'poppins-bold'}}>Add Course</h1>
             <Form>
                 <Form.Group className='mb-3' controlId='formCourseName'>
                     <Form.Label>Course Name</Form.Label>

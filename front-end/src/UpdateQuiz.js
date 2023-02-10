@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, Row, Col } from "react-bootstrap";
+import { Button, Form, Row, Col, Breadcrumb } from "react-bootstrap";
 import axios from 'axios';
 
 
@@ -53,6 +53,12 @@ const UpdateQuiz = ()=>{
 
     return (
         <div>
+            <Breadcrumb style={{marginLeft: "250px", marginTop: "50px", fontSize: "24px"}}>
+                <Breadcrumb.Item href="/course">Course</Breadcrumb.Item>
+                <Breadcrumb.Item href="/lesson">Lesson</Breadcrumb.Item>
+                <Breadcrumb.Item href="/managequiz">Manage Quiz</Breadcrumb.Item>
+                <Breadcrumb.Item active>Update Quiz</Breadcrumb.Item>
+            </Breadcrumb>
             <Form className = "container mb-3">
                 <h1 className="text-center m-3">Edit Quiz</h1>
                 <Form.Group className='mb-3' controlId='quizQuestion'>

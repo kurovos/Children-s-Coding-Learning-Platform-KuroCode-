@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { NavLink, useNavigate } from "react-router-dom";
-import { Button, Table } from 'react-bootstrap';
+import { Button, Table, Breadcrumb } from 'react-bootstrap';
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 const ManageQuiz = ()=>{
     const chapterID = localStorage.getItem('chapterID');
@@ -44,10 +46,36 @@ const ManageQuiz = ()=>{
         });
     }
 
+    const submit = () => {
+
+        confirmAlert({
+          title: 'Confirm to delete?',
+          message: 'Are you sure to do this.',
+          buttons: [
+            {
+              label: 'Yes',
+              onClick: () => deleteQuiz()
+            },
+            {
+              label: 'No',
+              //onClick: () => alert('Click No')
+            }
+          ]
+        });
+    }
+
 
     return(
         <div className="container mt-2">
+            <Breadcrumb style={{ marginTop: "50px", fontSize: "24px"}}>
+                <Breadcrumb.Item href="/course">Course</Breadcrumb.Item>
+                <Breadcrumb.Item href="/lesson">Lesson</Breadcrumb.Item>
+                <Breadcrumb.Item active>Quiz Management</Breadcrumb.Item>
+            </Breadcrumb>
             <h1 className="text-center mt-2">Quiz Management</h1>
+            {/* <div className="text-start" style={{marginLeft: "-100px"}}>
+                <Button variant="danger" onClick={(e)=>{navigate(-1)}}>Back</Button>
+            </div> */}
             <div className="text-end">
                 <Button variant="primary"><NavLink to="/addquiz" className="text-decoration-none text-light">Add Quiz</NavLink></Button>
             </div><br/><br/>
@@ -67,7 +95,7 @@ const ManageQuiz = ()=>{
                         <td>{props.quiz_question}</td>
                         <td>
                             <AiFillEdit title="Edit" style={{width: "30px", height: "30px", marginRight: "10px"}} onClick={(e)=>{navigate("/updatequiz");}}/>
-                            <AiFillDelete title="Delete" style={{width: "30px", height: "30px"}} onClick={(e)=>{deleteQuiz();}} />
+                            <AiFillDelete title="Delete" style={{width: "30px", height: "30px"}} onClick={(e)=>{submit();}} />
                         </td>
                         </tr>
                     );

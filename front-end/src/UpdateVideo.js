@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Breadcrumb } from "react-bootstrap";
 import axios from 'axios';
 import validator from "validator";
+import { useNavigate } from "react-router-dom";
 
 const UpdateVideo = ()=>{
     const [videoID, setVideoID] = useState("");
@@ -9,6 +10,8 @@ const UpdateVideo = ()=>{
     const [videoDescription, setVideoDescription] = useState("");
     const [videoUrl, setVideoUrl] = useState("");
     const chpID = localStorage.getItem('chapterID');
+
+    const navigate = useNavigate();
 
     useEffect(()=>{
         const getVideo = async()=>{
@@ -59,6 +62,14 @@ const UpdateVideo = ()=>{
     return(
         <div>
             <Form className="container mt-3">
+                {/* <div className="text-start" style={{marginLeft: "-100px"}}>
+                    <Button variant="danger" onClick={(e)=>{navigate(-1)}}>Back</Button>
+                </div> */}
+                <Breadcrumb style={{ marginTop: "50px", fontSize: "24px"}}>
+                    <Breadcrumb.Item href="/course">Course</Breadcrumb.Item>
+                    <Breadcrumb.Item href="/lesson">Lesson</Breadcrumb.Item>
+                    <Breadcrumb.Item active>Update Video</Breadcrumb.Item>
+                </Breadcrumb>
                 <h1>Update Video</h1>
                 <Form.Group className='mb-3' controlId='formUpdateName'>
                     <Form.Label>Video Title</Form.Label>

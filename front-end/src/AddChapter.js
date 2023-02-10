@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import Axios from "axios";
 import { Button, Form } from "react-bootstrap";
 import { FormContainer } from "./style/Form.style"
+import { useNavigate } from "react-router-dom";
+
 
 const AddChapter = () =>{
     const[chpName, setChpName] = useState("");
     const courseID = localStorage.getItem('courseID');
+
+    const navigate = useNavigate();
 
     const refreshPage = () =>{
         window.location.reload();
@@ -35,6 +39,7 @@ const AddChapter = () =>{
     }
 
     return(
+        <div>
         <FormContainer className= "bg-light rounded">
             <Form className="addChapter">
                 <Form.Group className="mb-3 px-3">
@@ -49,12 +54,15 @@ const AddChapter = () =>{
                         onKeyDown = {(e)=>{handleKeyPress(e)}}
                     />
                     <br/>
-                    <Button className= "mt-3" 
+                    
+                    <Button className= "m-3" 
                         onClick = {submitChapter}
                     >Submit</Button>
+                    <Button className= "m-3" variant="danger" onClick={(e)=>{navigate(-1)}}>Back</Button>
                 </Form.Group>
             </Form>
         </FormContainer>
+        </div>
     );
 }
 

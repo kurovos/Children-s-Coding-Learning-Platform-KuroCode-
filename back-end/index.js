@@ -259,6 +259,41 @@ app.get("/:id", (req,res) =>{
     }
 });
 
+//update password
+app.put("/updatepassword/:id",(req,res)=>{
+    const user_type = req.body.user_type;
+    const password = req.body.password;
+    const id = req.params.id;
+    bcrypt.hash(password, Rounds, (err, hash)=>{
+        if(err){
+            console.log(err);
+        }
+        if(user_type === "teacher"){
+            db.query(
+                "UPDATE teacher SET teacher_pwd = ?  WHERE teacher_ID = " + id ,[hash], (err, data) =>{
+                        // console.log(err, data);
+                        if(err){
+                            console.log(err);
+                        }else{
+                            return res.send(data);
+                        }
+                    }
+                );
+        }else if(user_type === "student"){
+            db.query(
+                "UPDATE student SET stu_pwd = ?  WHERE stu_ID = " + id ,[hash], (err, data) =>{
+                        // console.log(err, data);
+                        if(err){
+                            console.log(err);
+                        }else{
+                            return res.send(data);
+                        }
+                    }
+                );
+        }
+    })
+});
+
 app.listen(PORT,()=>{
     console.log(`running server on ${PORT}`);
 });
